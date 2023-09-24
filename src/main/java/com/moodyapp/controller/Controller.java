@@ -7,10 +7,14 @@ import com.moodyapp.service.AccountService;
 import com.moodyapp.service.UserInfoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -28,17 +32,26 @@ public class Controller {
 
 
     @GetMapping("/accounts")
-    public List<Account> getExistingAccounts() {
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody List<Account> getExistingAccounts() {
         return this.accountService.getAllAccounts();
     }
 
     @PostMapping("/accounts")
-    public Account registerAccount(@RequestBody Account account) throws InvalidCredentialsException {
+    @ResponseStatus(HttpStatus.CREATED)
+    public @ResponseBody Account registerAccount(@RequestBody Account account) throws InvalidCredentialsException {
         Optional<Account> accountOptional = Optional.of(this.accountService.registerAccount(account));
         if (accountOptional.isPresent())
             return accountOptional.get();
 
         return null;
     }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody String handleInvalidCredentialsException(InvalidCredentialsException ex) {
+        return ex.getMessage();
+    }
+
 
 }

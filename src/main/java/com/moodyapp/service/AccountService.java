@@ -26,9 +26,9 @@ public class AccountService {
 
     public Account registerAccount(Account account) throws InvalidCredentialsException {
         if (account.getUsername().isEmpty())
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialsException("Username is empty, please enter a valid username.");
         if (account.getPass().length() < 4)
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialsException("Password is too short, please choose a longer password.");
         
         return this.accountRepository.save(account);
     }
