@@ -1,25 +1,27 @@
 package com.moodyapp.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Data
 public class Moodlet {
     @Id
-    private long moodlet_id;
-    private String moodlet_name;
-    private int moodlet_value;
-    private long moodlet_owner_fk;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String name;
+    private int value;
+    private long owner_fk;
+
+    public Moodlet(String name, int value) {
+        this.name = name;
+        this.value = value;
+    }
 }
