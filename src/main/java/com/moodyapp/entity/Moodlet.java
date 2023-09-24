@@ -16,6 +16,10 @@ public class Moodlet {
     private String name;
     private int value;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ownerFK")
+    private Account owner; 
+
     public Moodlet(String name, int value) {
         this.name = name;
         this.value = value;

@@ -15,4 +15,8 @@ public class UserInfo {
     private long id;
     private String firstname;
     private String lastname;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ownerFK")
+    private Account owner;
 }

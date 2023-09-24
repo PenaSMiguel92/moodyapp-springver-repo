@@ -18,10 +18,13 @@ public class Account {
     private String username;
     private String pass;
     private String email;
-    // @OneToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "ownerFK")
-    // private UserInfo userinfo;
-    // @OneToMany(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "ownerFK")
-    // private List<Moodlet> moodlets;
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ownerFK")
+    private UserInfo userinfo;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ownerFK")
+    private List<Moodlet> moodlets;
 }
