@@ -1,10 +1,9 @@
 package com.moodyapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -18,5 +17,11 @@ public class Account {
     private long id;
     private String username;
     private String pass;
-    private long userinfo;
+    private String email;
+    // @OneToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "ownerFK")
+    // private UserInfo userinfo;
+    // @OneToMany(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "ownerFK")
+    // private List<Moodlet> moodlets;
 }

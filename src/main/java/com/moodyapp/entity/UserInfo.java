@@ -9,15 +9,10 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @Data
-public class Moodlet {
+public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
-    private int value;
-
-    public Moodlet(String name, int value) {
-        this.name = name;
-        this.value = value;
-    }
+    private String firstname;
+    private String lastname;
 }

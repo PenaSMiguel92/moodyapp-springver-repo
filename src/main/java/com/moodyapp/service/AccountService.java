@@ -1,6 +1,9 @@
 package com.moodyapp.service;
 import com.moodyapp.entity.Account;
-import com.moodyapp.repository.AccountDAI;
+import com.moodyapp.exceptions.InvalidCredentialsException;
+import com.moodyapp.repository.AccountRepository;
+
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,17 +11,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional(rollbackOn = InvalidCredentialsException.class)
 @Service
 public class AccountService {
-    AccountDAI accountDAI;
+    AccountRepository accountRepository;
     @Autowired
-    public AccountService(AccountDAI accountDAI) {
-        this.accountDAI = accountDAI;
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
     public List<Account> getAllAccounts() {
-        return this.accountDAI.findAll();
+        return this.accountRepository.findAll();
     }
 
-    
+    public Account registerAccount(Account account) throws InvalidCredentialsException {
+        if (account.getUsername().isEmpty())
+            throw new InvalidCredentialsException();
+        if (account.getPass().length() < 4)
+            throw new InvalidCredentialsException();
+        
+        return this.accountRepository.save(account);
+    }
+
+
 }
