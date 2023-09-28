@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,13 +31,13 @@ public class Controller {
 
     @GetMapping("/accounts")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody List<Account> getExistingAccounts() {
+    public List<Account> getExistingAccounts() {
         return this.accountService.getAllAccounts();
     }
 
-    @PostMapping("/accounts")
-    @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody Account registerAccount(@RequestBody Account account) throws InvalidCredentialsException {
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.OK)
+    public Account registerAccount(@RequestBody Account account) throws InvalidCredentialsException {
         Optional<Account> accountOptional = Optional.of(this.accountService.registerAccount(account));
         if (accountOptional.isPresent())
             return accountOptional.get();
@@ -47,9 +45,16 @@ public class Controller {
         return null;
     }
 
+    @GetMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public Account loginRequest(@RequestBody Account account) throws InvalidCredentialsException {
+
+        return null;
+    }
+
     @ExceptionHandler(InvalidCredentialsException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public @ResponseBody String handleInvalidCredentialsException(InvalidCredentialsException ex) {
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleInvalidCredentialsException(InvalidCredentialsException ex) {
         return ex.getMessage();
     }
 

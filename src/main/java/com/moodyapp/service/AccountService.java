@@ -29,6 +29,10 @@ public class AccountService {
             throw new InvalidCredentialsException("Username is empty, please enter a valid username.");
         if (account.getPass().length() < 4)
             throw new InvalidCredentialsException("Password is too short, please choose a longer password.");
+            
+        Optional<Account> accountOptional = Optional.ofNullable(this.accountRepository.findByUsername(account.getUsername()));
+        if (accountOptional.isPresent())
+            throw new InvalidCredentialsException("Username already exists, please choose another.");
         
         return this.accountRepository.save(account);
     }
