@@ -33,5 +33,5 @@ build/
 .vscode/
 
 ### Properties Files ###
-.properties
+src/main/resources/application.properties
 .yml
