@@ -1,10 +1,10 @@
-package com.moodyapp.controller;
+package com.moodyapp.controllers;
 
-import com.moodyapp.entity.Account;
-import com.moodyapp.entity.UserInfo;
+import com.moodyapp.entities.Account;
+import com.moodyapp.entities.Profile;
 import com.moodyapp.exceptions.InvalidCredentialsException;
-import com.moodyapp.service.AccountService;
-import com.moodyapp.service.UserInfoService;
+import com.moodyapp.services.AccountService;
+import com.moodyapp.services.ProfileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +21,9 @@ import java.util.Optional;
 @RestController
 public class Controller {
     AccountService accountService;
-    UserInfoService userInfoService;
+    ProfileService userInfoService;
     @Autowired
-    public Controller(AccountService accountService, UserInfoService userInfoService) {
+    public Controller(AccountService accountService, ProfileService userInfoService) {
         this.accountService = accountService;
         this.userInfoService = userInfoService;
     }

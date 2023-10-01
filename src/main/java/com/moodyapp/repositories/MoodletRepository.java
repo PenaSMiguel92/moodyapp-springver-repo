@@ -1,8 +1,8 @@
-package com.moodyapp.repository;
+package com.moodyapp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.moodyapp.entity.Moodlet;
+import com.moodyapp.entities.Moodlet;
 
 public interface MoodletRepository extends JpaRepository<Moodlet, Long> {
     

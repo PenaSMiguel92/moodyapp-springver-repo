@@ -1,7 +1,7 @@
-package com.moodyapp.service;
-import com.moodyapp.entity.Account;
+package com.moodyapp.services;
+import com.moodyapp.entities.Account;
 import com.moodyapp.exceptions.InvalidCredentialsException;
-import com.moodyapp.repository.AccountRepository;
+import com.moodyapp.repositories.AccountRepository;
 
 import jakarta.transaction.Transactional;
 

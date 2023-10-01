@@ -1,4 +1,4 @@
-package com.moodyapp.entity;
+package com.moodyapp.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,11 +20,10 @@ public class Account {
     private String email;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ownerFK")
-    private UserInfo userinfo;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profileId")
+    private Profile profile;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ownerFK")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
     private List<Moodlet> moodlets;
 }
