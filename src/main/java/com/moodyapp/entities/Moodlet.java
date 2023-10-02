@@ -20,9 +20,9 @@ public class Moodlet {
     @Column(name = "moodlet_value")
     private int moodlet_value;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "moodlet_ownerId")
-    private Account moodlet_ownerId; 
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "moodlet_ownerId")
+    // private Account moodlet_ownerId; 
 
     public Moodlet(String name, int value) {
         this.moodlet_name = name;

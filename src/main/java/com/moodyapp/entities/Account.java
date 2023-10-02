@@ -11,6 +11,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @Data
+@Table(name = "account")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +21,10 @@ public class Account {
     private String email;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profileId")
-    private Profile profile;
+    // @OneToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "profileId")
+    // private Profile profile;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-    private List<Moodlet> moodlets;
+    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    // private List<Moodlet> moodlets;
 }
