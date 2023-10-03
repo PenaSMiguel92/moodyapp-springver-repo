@@ -1,6 +1,8 @@
 package com.moodyapp.services;
 import com.moodyapp.entities.Account;
-import com.moodyapp.exceptions.InvalidCredentialsException;
+import com.moodyapp.exceptions.ClientErrorException;
+import com.moodyapp.exceptions.ConflictException;
+import com.moodyapp.exceptions.UnauthorizedException;
 import com.moodyapp.repositories.AccountRepository;
 
 import jakarta.transaction.Transactional;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional(rollbackOn = InvalidCredentialsException.class)
+@Transactional
 @Service
 public class AccountService {
     AccountRepository accountRepository;
@@ -24,17 +26,32 @@ public class AccountService {
         return this.accountRepository.findAll();
     }
 
-    public Account registerAccount(Account account) throws InvalidCredentialsException {
+    public Account registerAccount(Account account) throws ClientErrorException, ConflictException {
         if (account.getUsername().isEmpty())
-            throw new InvalidCredentialsException("Username is empty, please enter a valid username.");
+            throw new ClientErrorException("Username is empty, please enter a valid username.");
         if (account.getPass().length() < 4)
-            throw new InvalidCredentialsException("Password is too short, please choose a longer password.");
-            
-        Optional<Account> accountOptional = Optional.ofNullable(this.accountRepository.findByUsername(account.getUsername()));
+            throw new ClientErrorException("Password is too short, please choose a longer password.");
+
+        Optional<Account> accountOptional = Optional
+                .ofNullable(this.accountRepository.findByUsername(account.getUsername()));
         if (accountOptional.isPresent())
-            throw new InvalidCredentialsException("Username already exists, please choose another.");
-        
+            throw new ConflictException("Username already exists, please choose another.");
+
         return this.accountRepository.save(account);
+    }
+    
+    public Account loginRequest(Account account) throws ClientErrorException, UnauthorizedException {
+        if (account.getUsername().isEmpty())
+            throw new ClientErrorException("Username is empty, please enter a valid username.");
+        Optional<Account> accountOptional = Optional
+                .ofNullable(this.accountRepository.findByUsername(account.getUsername()));
+        if (!accountOptional.isPresent())
+            throw new ClientErrorException("Username does not exist, please enter a valid username.");
+        Account existingAccount = accountOptional.get();
+        if (!existingAccount.getPass().equals(account.getPass()))
+            throw new UnauthorizedException("Passwords do not match, please enter valid password.");
+        
+        return existingAccount; 
     }
 
 

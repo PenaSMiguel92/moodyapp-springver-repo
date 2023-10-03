@@ -2,7 +2,9 @@ package com.moodyapp.controllers;
 
 import com.moodyapp.entities.Account;
 import com.moodyapp.entities.Profile;
-import com.moodyapp.exceptions.InvalidCredentialsException;
+import com.moodyapp.exceptions.ClientErrorException;
+import com.moodyapp.exceptions.ConflictException;
+import com.moodyapp.exceptions.UnauthorizedException;
 import com.moodyapp.services.AccountService;
 import com.moodyapp.services.ProfileService;
 
@@ -37,26 +39,43 @@ public class Controller {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public Account registerAccount(@RequestBody Account account) throws InvalidCredentialsException {
+    public Account registerAccount(@RequestBody Account account) throws ClientErrorException, ConflictException {
         Optional<Account> accountOptional = Optional.of(this.accountService.registerAccount(account));
-        if (accountOptional.isPresent())
-            return accountOptional.get();
+        if (!accountOptional.isPresent())
+            throw new ClientErrorException("Account was not successfully created.");
 
-        return null;
+        return accountOptional.get();
     }
 
     @GetMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public Account loginRequest(@RequestBody Account account) throws InvalidCredentialsException {
-
-        return null;
+    public Account loginRequest(@RequestBody Account account) throws ClientErrorException, UnauthorizedException {
+        Optional<Account> accountOptional = Optional.ofNullable(this.accountService.loginRequest(account));
+        if (!accountOptional.isPresent())
+            throw new ClientErrorException("Please enter valid credentials.");
+        
+        return accountOptional.get();
     }
 
-    @ExceptionHandler(InvalidCredentialsException.class)
+    @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String handleInvalidCredentialsException(InvalidCredentialsException ex) {
+    public String handleConflictException(ConflictException ex) {
         return ex.getMessage();
     }
+
+    @ExceptionHandler(ClientErrorException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleClientErrorException(ClientErrorException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String handleUnauthorizedException(UnauthorizedException ex) {
+        return ex.getMessage();
+    }
+
+
 
 
 }
