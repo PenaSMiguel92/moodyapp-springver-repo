@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,11 +24,11 @@ import java.util.Optional;
 @RestController
 public class Controller {
     AccountService accountService;
-    ProfileService userInfoService;
+    ProfileService profileService;
     @Autowired
-    public Controller(AccountService accountService, ProfileService userInfoService) {
+    public Controller(AccountService accountService, ProfileService profileService) {
         this.accountService = accountService;
-        this.userInfoService = userInfoService;
+        this.profileService = profileService;
     }
 
 
@@ -53,8 +54,16 @@ public class Controller {
         Optional<Account> accountOptional = Optional.ofNullable(this.accountService.loginRequest(account));
         if (!accountOptional.isPresent())
             throw new ClientErrorException("Please enter valid credentials.");
-        
+
         return accountOptional.get();
+    }
+    
+    @PostMapping("/accounts/{username}/profile")
+    @ResponseStatus(HttpStatus.OK)
+    public Profile registerProfileHandler(@PathVariable("username") String username, @RequestBody Profile profile)
+            throws ClientErrorException, ConflictException {
+        profile.setOwned_by(username);
+        return this.profileService.registerProfile(profile);
     }
 
     @ExceptionHandler(ConflictException.class)
