@@ -25,7 +25,17 @@ public class ProfileService {
                 .ofNullable(this.profileRepository.findProfileByOwnership(profile.getOwned_by()));
         if (profileOptional.isPresent())
             throw new ConflictException("User profile already exists.");
-            
+
         return this.profileRepository.save(profile);
+    }
+
+    public Profile retrieveProfileByUsername(String username) throws ClientErrorException {
+        if (username.isBlank())
+            throw new ClientErrorException("That username is blank.");
+        Optional<Profile> profileOptional = Optional
+                .ofNullable(this.profileRepository.findProfileByOwnership(username));
+        if (!profileOptional.isPresent())
+            throw new ClientErrorException("That username does not exist.");
+        return profileOptional.get();
     }
 }

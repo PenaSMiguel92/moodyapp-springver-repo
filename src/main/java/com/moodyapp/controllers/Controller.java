@@ -66,6 +66,12 @@ public class Controller {
         return this.profileService.registerProfile(profile);
     }
 
+    @GetMapping("/accounts/{username}/profile")
+    @ResponseStatus(HttpStatus.OK)
+    public Profile getProfileHandler(@PathVariable("username") String username) throws ClientErrorException {
+        return this.profileService.retrieveProfileByUsername(username);
+    }
+
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleConflictException(ConflictException ex) {
