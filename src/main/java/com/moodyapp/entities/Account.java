@@ -6,10 +6,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 @Data
-@Table(name = "accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +19,13 @@ public class Account {
     // @OneToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "profileId")
     // private Profile profile;
-
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    // @JsonIgnore
+    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "moodlet_owner")
     // private List<Moodlet> moodlets;
+    // public void generateMoodlets() {
+    //     List<String> moodletList = Arrays.asList("Hunger", "Fun",
+    //             "Hygiene", "Bathroom", "Social",
+    //             "Energy", "Environment");
+    //     moodlets = moodletList.stream().map(e -> new Moodlet(e, this)).toList();
+    // }
 }

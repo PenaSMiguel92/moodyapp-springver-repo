@@ -1,11 +1,13 @@
 package com.moodyapp.controllers;
 
 import com.moodyapp.entities.Account;
+import com.moodyapp.entities.Moodlet;
 import com.moodyapp.entities.Profile;
 import com.moodyapp.exceptions.ClientErrorException;
 import com.moodyapp.exceptions.ConflictException;
 import com.moodyapp.exceptions.UnauthorizedException;
 import com.moodyapp.services.AccountService;
+import com.moodyapp.services.MoodletService;
 import com.moodyapp.services.ProfileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,13 @@ import java.util.Optional;
 @RestController
 public class Controller {
     AccountService accountService;
+    MoodletService moodletService;
     ProfileService profileService;
     @Autowired
-    public Controller(AccountService accountService, ProfileService profileService) {
+    public Controller(AccountService accountService, ProfileService profileService, MoodletService moodletService) {
         this.accountService = accountService;
         this.profileService = profileService;
+        this.moodletService = moodletService;
     }
 
 
@@ -66,11 +70,11 @@ public class Controller {
         return this.profileService.registerProfile(profile);
     }
 
-    @GetMapping("/accounts/{username}/profile")
-    @ResponseStatus(HttpStatus.OK)
-    public Profile getProfileHandler(@PathVariable("username") String username) throws ClientErrorException {
-        return this.profileService.retrieveProfileByUsername(username);
-    }
+    // @GetMapping("/accounts/{username}/profile")
+    // @ResponseStatus(HttpStatus.OK)
+    // public Profile getProfileHandler(@PathVariable("username") String username) throws ClientErrorException {
+    //     return this.profileService.retrieveProfileByUsername(username);
+    //}
 
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
