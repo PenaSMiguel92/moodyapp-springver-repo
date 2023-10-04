@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import com.moodyapp.entities.Profile;
 
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
-    @Query("FROM profile WHERE owned_by = :owner_username")
-    public Profile getByOwner_Username(@Param("owner_username") String owner_username); 
+    @Query("FROM Profile WHERE owned_by = :username")
+    public Profile findByUsername(@Param("username") String username); 
 }
