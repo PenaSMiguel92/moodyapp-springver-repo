@@ -1,5 +1,7 @@
 package com.moodyapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,13 +19,13 @@ public class Moodlet {
     @Column(name = "moodlet_value")
     private int moodlet_value;
 
-    // public Moodlet(String name, Account owner) {
-    //     this.moodlet_name = name;
-    //     this.moodlet_value = 50;
-    //     this.moodlet_owner = owner;
-    // }
+    public Moodlet(String name, int value) {
+        this.moodlet_name = name;
+        this.moodlet_value = value;
+    }
 
     // @ManyToOne(fetch = FetchType.EAGER)
     // @JoinColumn(name = "moodlet_owner")
-    // private Account moodlet_owner; 
+    @JsonIgnore
+    private Account moodlet_owner; 
 }
