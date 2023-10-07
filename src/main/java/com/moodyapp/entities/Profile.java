@@ -16,7 +16,9 @@ public class Profile {
     private String first_name;
     @Column(name = "last_name")
     private String last_name;
-    @Column(name = "owned_by")
-    private String owned_by;
+
+    @OneToOne
+    @JoinColumn(name = "accountFK")
+    private Account owned_by;
 
 }

@@ -36,7 +36,7 @@ public class AccountService {
                 .ofNullable(this.accountRepository.findByUsername(account.getUsername()));
         if (accountOptional.isPresent())
             throw new ConflictException("Username already exists, please choose another.");
-        account.generateMoodlets();
+        //account.generateMoodlets();
         return this.accountRepository.save(account);
     }
     

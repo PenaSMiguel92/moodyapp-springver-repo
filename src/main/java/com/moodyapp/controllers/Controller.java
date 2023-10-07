@@ -66,8 +66,7 @@ public class Controller {
     @ResponseStatus(HttpStatus.OK)
     public Profile registerProfileHandler(@PathVariable("username") String username, @RequestBody Profile profile)
             throws ClientErrorException, ConflictException {
-        profile.setOwned_by(username);
-        return this.profileService.registerProfile(profile);
+        return this.profileService.registerProfile(profile, username);
     }
 
     // @GetMapping("/accounts/{username}/profile")

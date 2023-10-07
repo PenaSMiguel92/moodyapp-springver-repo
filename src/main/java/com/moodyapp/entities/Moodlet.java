@@ -1,7 +1,5 @@
 package com.moodyapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +22,7 @@ public class Moodlet {
         this.moodlet_value = value;
     }
 
-    // @ManyToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "moodlet_owner")
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "accountFK")
     private Account moodlet_owner; 
 }

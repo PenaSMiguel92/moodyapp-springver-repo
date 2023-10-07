@@ -22,19 +22,20 @@ public class Account {
     private String email;
 
 
-    // @OneToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "profileId")
-    // private Profile profile;
-    @JsonIgnore
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "moodlet_owner")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "accountFK")
+    private Profile profile;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "accountFK")
     private List<Moodlet> moodlets;
-    public void generateMoodlets() {
-        List<String> moodletList = Arrays.asList("Hunger", "Fun",
-                "Hygiene", "Bathroom", "Social",
-                "Energy", "Environment");
-        moodlets = moodletList.stream().map(e -> {
-            Moodlet moodlet = new Moodlet(e, 50);
-            moodlet.setMoodlet_owner(this);
-            return moodlet;}).toList();
-    }
+    // public void generateMoodlets() {
+    //     List<String> moodletList = Arrays.asList("Hunger", "Fun",
+    //             "Hygiene", "Bathroom", "Social",
+    //             "Energy", "Environment");
+    //     moodlets = moodletList.stream().map(e -> {
+    //         Moodlet moodlet = new Moodlet(e, 50);
+    //         moodlet.setMoodlet_owner(this);
+    //         return moodlet;}).toList();
+    // }
 }
