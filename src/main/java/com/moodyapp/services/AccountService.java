@@ -1,5 +1,6 @@
 package com.moodyapp.services;
 import com.moodyapp.entities.Account;
+import com.moodyapp.entities.Profile;
 import com.moodyapp.exceptions.ClientErrorException;
 import com.moodyapp.exceptions.ConflictException;
 import com.moodyapp.exceptions.UnauthorizedException;
@@ -50,9 +51,18 @@ public class AccountService {
         Account existingAccount = accountOptional.get();
         if (!existingAccount.getPass().equals(account.getPass()))
             throw new UnauthorizedException("Passwords do not match, please enter valid password.");
-        
-        return existingAccount; 
+
+        return existingAccount;
     }
 
+    public Profile addProfileToAccount(String username, Profile profile) throws ClientErrorException {
+        Optional<Account> accountOptional = Optional.ofNullable(this.accountRepository.findByUsername(username));
+        if (!accountOptional.isPresent())
+            throw new ClientErrorException("The username does not exist.");
+        Account account = accountOptional.get();
+        account.setProfile(profile);
+        this.accountRepository.save(account);
+        return profile;
+    }
 
 }

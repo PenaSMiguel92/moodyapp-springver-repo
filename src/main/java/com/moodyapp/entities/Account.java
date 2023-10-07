@@ -23,7 +23,7 @@ public class Account {
 
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "accountFK")
+    @JoinColumn(name = "profileFK")
     private Profile profile;
 
     @OneToMany(fetch = FetchType.EAGER)

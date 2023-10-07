@@ -31,11 +31,10 @@ public class ProfileService {
             throw new ClientErrorException("Username does not exist.");
         
         Account account = accountOptional.get();
-        profile.setOwned_by(account);
-        Optional<Profile> profileOptional = Optional.ofNullable(this.profileRepository.findByUsername(username));
+        Optional<Profile> profileOptional = Optional.ofNullable(account.getProfile());
         if (profileOptional.isPresent())
             throw new ConflictException("User profile already exists.");
-
+        profile.setOwned_by(account);
         return this.profileRepository.save(profile);
     }
 
@@ -45,7 +44,7 @@ public class ProfileService {
         Optional<Account> accountOptional = Optional.ofNullable(this.accountRepository.findByUsername(username));
         if (!accountOptional.isPresent())
             throw new ClientErrorException("That username does not exist.");
-        
+
         Account account = accountOptional.get();
         Optional<Profile> profileOptional = Optional
                 .ofNullable(account.getProfile());
@@ -53,4 +52,5 @@ public class ProfileService {
             throw new ClientErrorException("The profile does not exist.");
         return profileOptional.get();
     }
+    
 }

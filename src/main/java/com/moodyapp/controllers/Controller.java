@@ -52,7 +52,7 @@ public class Controller {
         return accountOptional.get();
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public Account loginRequest(@RequestBody Account account) throws ClientErrorException, UnauthorizedException {
         Optional<Account> accountOptional = Optional.ofNullable(this.accountService.loginRequest(account));
@@ -66,7 +66,8 @@ public class Controller {
     @ResponseStatus(HttpStatus.OK)
     public Profile registerProfileHandler(@PathVariable("username") String username, @RequestBody Profile profile)
             throws ClientErrorException, ConflictException {
-        return this.profileService.registerProfile(profile, username);
+        Profile newProfile = this.profileService.registerProfile(profile, username);
+        return this.accountService.addProfileToAccount(username, newProfile);
     }
 
     // @GetMapping("/accounts/{username}/profile")

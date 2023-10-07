@@ -18,7 +18,7 @@ public class Profile {
     private String last_name;
 
     @OneToOne
-    @JoinColumn(name = "accountFK")
+    @JoinColumn(name = "profileFK")
     private Account owned_by;
 
 }
